@@ -9,8 +9,8 @@ function checkIfUserIsLoggedIn()
 
     $_SESSION['username'] = phpCAS::getUser();
 
-    if ($_SESSION['username']) {
-        if ($_SESSION['loggedInLocally']) {
+    if (isset($_SESSION['username'])) {
+        if (isset($_SESSION['loggedInLocally'])) {
             setSessionVariables();
         }
     } else {
@@ -42,6 +42,10 @@ function setSessionVariables()
 
 function logout()
 {
+    $helper = array_keys($_SESSION);
+    foreach($helper as $key) { unset($_SESSION[$key]); }
+    session_unset();
+    session_destroy();
     phpCAS::logout();
 }
 
